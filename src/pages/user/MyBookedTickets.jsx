@@ -20,6 +20,16 @@ export default function MyBookedTickets() {
     fetch();
   }, []);
 
+  const handleCancel = async (bookingId) => {
+    if (!confirm("Cancel this booking?")) return;
+    try {
+      await api.put(`/api/cancel/${bookingId}`);
+      setBookings((prev) => prev.map((b) => b._id === bookingId ? { ...b, status: "rejected" } : b));
+    } catch (err) {
+      alert(err.response?.data?.error || "Cancel failed");
+    }
+  };
+
   const handlePay = async (bookingId) => {
     try {
       const res = await api.post("/api/payments/create-checkout", { bookingId });
@@ -59,11 +69,18 @@ export default function MyBookedTickets() {
                     }`}>{booking.status}</span>
                     {t && booking.status !== "rejected" && <CountdownTimer departureDate={t.departureDate} departureTime={t.departureTime} />}
                   </div>
-                  {booking.status === "accepted" && !passed && (
-                    <button onClick={() => handlePay(booking._id)} className="w-full mt-3 py-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-lg text-sm hover:opacity-90 transition">
-                      Pay Now
-                    </button>
-                  )}
+                  <div className="flex gap-2 mt-3">
+                    {booking.status === "pending" && (
+                      <button onClick={() => handleCancel(booking._id)} className="flex-1 py-2 border border-red-500 text-red-500 rounded-lg text-sm hover:bg-red-50 dark:hover:bg-red-900 transition">
+                        Cancel
+                      </button>
+                    )}
+                    {booking.status === "accepted" && !passed && (
+                      <button onClick={() => handlePay(booking._id)} className="flex-1 py-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-lg text-sm hover:opacity-90 transition">
+                        Pay Now
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             );
