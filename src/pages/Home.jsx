@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 import TicketCard from "../components/TicketCard";
 import Spinner from "../components/Spinner";
 import api from "../utils/api";
@@ -29,21 +34,52 @@ export default function Home() {
 
   if (loading) return <Spinner />;
 
+  const slides = [
+    {
+      title: "Your Journey Starts Here",
+      subtitle: "Book bus, train, launch & flight tickets with ease. Safe, fast, and reliable.",
+      bg: "from-purple-900 via-purple-800 to-pink-800",
+      img: "https://images.unsplash.com/photo-1488085061387-422e29b40080?w=1920",
+    },
+    {
+      title: "Travel Anywhere, Anytime",
+      subtitle: "Explore thousands of routes across the country at the best prices.",
+      bg: "from-blue-900 via-indigo-800 to-purple-800",
+      img: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1920",
+    },
+    {
+      title: "Safe & Secure Booking",
+      subtitle: "Pay securely with Stripe and get instant confirmation.",
+      bg: "from-green-900 via-teal-800 to-blue-800",
+      img: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920",
+    },
+  ];
+
   return (
     <div>
-      <section className="relative h-[500px] flex items-center justify-center overflow-hidden bg-gradient-to-br from-purple-900 via-purple-800 to-pink-800">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1488085061387-422e29b40080?w=1920')] bg-cover bg-center opacity-20"></div>
-        <div className="relative text-center px-4">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
-            Your Journey <span className="bg-gradient-to-r from-pink-300 to-purple-300 bg-clip-text text-transparent">Starts Here</span>
-          </h1>
-          <p className="text-lg text-purple-200 mb-8 max-w-2xl mx-auto">Book bus, train, launch & flight tickets with ease. Safe, fast, and reliable.</p>
-          <div className="flex gap-4 justify-center">
-            <Link to="/all-tickets" className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-full font-medium hover:opacity-90 transition shadow-lg">Browse Tickets</Link>
-            <Link to="/register" className="px-8 py-3 bg-white/10 backdrop-blur-sm text-white rounded-full font-medium border border-white/20 hover:bg-white/20 transition">Get Started</Link>
-          </div>
-        </div>
-      </section>
+      <Swiper
+        modules={[Autoplay, Pagination, Navigation]}
+        autoplay={{ delay: 5000 }}
+        pagination={{ clickable: true }}
+        navigation
+        className="h-[500px]"
+      >
+        {slides.map((slide, idx) => (
+          <SwiperSlide key={idx}>
+            <section className={`relative h-full flex items-center justify-center overflow-hidden bg-gradient-to-br ${slide.bg}`}>
+              <div className="absolute inset-0 bg-cover bg-center opacity-20" style={{ backgroundImage: `url('${slide.img}')` }}></div>
+              <div className="relative text-center px-4">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">{slide.title}</h1>
+                <p className="text-lg text-purple-200 mb-8 max-w-2xl mx-auto">{slide.subtitle}</p>
+                <div className="flex gap-4 justify-center">
+                  <Link to="/all-tickets" className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-full font-medium hover:opacity-90 transition shadow-lg">Browse Tickets</Link>
+                  <Link to="/register" className="px-8 py-3 bg-white/10 backdrop-blur-sm text-white rounded-full font-medium border border-white/20 hover:bg-white/20 transition">Get Started</Link>
+                </div>
+              </div>
+            </section>
+          </SwiperSlide>
+        ))}
+      </Swiper>
 
       {advertised.length > 0 && (
         <section className="max-w-7xl mx-auto px-4 py-16">
