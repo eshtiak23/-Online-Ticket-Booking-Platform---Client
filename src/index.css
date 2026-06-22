@@ -4,6 +4,12 @@
 
 @layer base {
   body {
-    @apply text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-900 transition-colors duration-300;
+    @apply text-gray-800 dark:text-gray-100 bg-white dark:bg-ocean-950 transition-colors duration-300;
+  }
+}
+
+@layer utilities {
+  .nav-link-active {
+    @apply bg-gradient-to-r from-blossom-500 to-primary-500 text-white shadow-lg shadow-blossom-500/25;
   }
 }

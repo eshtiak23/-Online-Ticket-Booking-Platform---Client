@@ -1,21 +1,25 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-const ThemeContext = createContext();
+const ThemeContext = createContext(null);
+
+const STORAGE_KEY = "ticketbari-theme";
+
+function getInitialTheme() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  return saved === "dark";
+}
 
 export function ThemeProvider({ children }) {
-  const [dark, setDark] = useState(() => {
-    const saved = localStorage.getItem("theme");
-    if (saved) return saved === "dark";
-    return window.matchMedia("(prefers-color-scheme: dark)").matches;
-  });
+  const [dark, setDark] = useState(getInitialTheme);
 
   useEffect(() => {
+    const root = document.documentElement;
     if (dark) {
-      document.documentElement.classList.add("dark");
+      root.classList.add("dark");
     } else {
-      document.documentElement.classList.remove("dark");
+      root.classList.remove("dark");
     }
-    localStorage.setItem("theme", dark ? "dark" : "light");
+    localStorage.setItem(STORAGE_KEY, dark ? "dark" : "light");
   }, [dark]);
 
   const toggleTheme = () => setDark((prev) => !prev);
@@ -27,4 +31,8 @@ export function ThemeProvider({ children }) {
   );
 }
 
-export const useTheme = () => useContext(ThemeContext);
+export function useTheme() {
+  const ctx = useContext(ThemeContext);
+  if (!ctx) throw new Error("useTheme must be used within ThemeProvider");
+  return ctx;
+}
