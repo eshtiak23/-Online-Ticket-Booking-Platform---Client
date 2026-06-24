@@ -14,6 +14,7 @@ import ThemeToggle from "./ThemeToggle";
 const NAV_ITEMS = [
   { label: "Home", path: "/" },
   { label: "All Tickets", path: "/all-tickets" },
+  { label: "Dashboard", path: "/dashboard", requiresAuth: true },
 ];
 
 const LINK_CLASSES =
@@ -91,10 +92,11 @@ function BrandLogo() {
   );
 }
 
-function NavLinks({ location, onNavigate, className = "" }) {
+function NavLinks({ location, onNavigate, user, className = "" }) {
   return (
     <div className={`flex items-center gap-1.5 ${className}`}>
       {NAV_ITEMS.map((item) => {
+        if (item.requiresAuth && !user) return null;
         const isActive =
           item.path === "/"
             ? location.pathname === "/"
@@ -223,7 +225,7 @@ function UserDropdown({ user, onLogout, onNavigate }) {
   );
 }
 
-function MobileNav({ open, onClose, location }) {
+function MobileNav({ open, onClose, location, user }) {
   return (
     <div
       className={`md:hidden fixed inset-x-0 top-16 bottom-0 z-40 transition-all duration-500 ease-in-out ${
@@ -246,7 +248,7 @@ function MobileNav({ open, onClose, location }) {
         }`}
       >
         <div className="flex flex-col gap-2">
-          {NAV_ITEMS.map((item, i) => {
+          {NAV_ITEMS.filter(item => !item.requiresAuth || user).map((item, i) => {
             const isActive =
               item.path === "/"
                 ? location.pathname === "/"
@@ -300,7 +302,7 @@ export default function Navbar() {
             <BrandLogo />
 
             <div className="hidden md:flex items-center gap-6">
-              <NavLinks location={location} />
+              <NavLinks location={location} user={user} />
             </div>
 
             <div className="hidden md:flex items-center gap-2.5">
@@ -356,6 +358,7 @@ export default function Navbar() {
         open={mobileOpen}
         onClose={closeMobile}
         location={location}
+        user={user}
       />
     </>
   );

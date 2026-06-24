@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import api from "../utils/api";
+import CountdownTimer from "../components/CountdownTimer";
 
 export default function TicketDetails() {
   const { id } = useParams();
@@ -83,6 +84,11 @@ export default function TicketDetails() {
               <p className="text-sm text-gray-500">Departure</p>
               <p className="font-semibold">{ticket.departureDate}</p>
               <p className="text-sm text-gray-500">{ticket.departureTime}</p>
+              {!passed && (
+                <div className="mt-1">
+                  <CountdownTimer departureDate={ticket.departureDate} departureTime={ticket.departureTime} />
+                </div>
+              )}
             </div>
           </div>
 
