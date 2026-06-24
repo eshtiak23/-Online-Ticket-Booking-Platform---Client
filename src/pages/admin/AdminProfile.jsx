@@ -1,7 +1,11 @@
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function AdminProfile() {
-  const { user } = useAuth();
+  const { user, isPending } = useAuth();
+
+  if (isPending) return <div className="flex justify-center py-16"><div className="w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full animate-spin"></div></div>;
+  if (!user) return null;
+
   return (
     <div className="max-w-2xl">
       <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">Admin Profile</h2>

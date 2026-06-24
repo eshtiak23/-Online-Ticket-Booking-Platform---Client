@@ -65,7 +65,7 @@ export default function RequestedBookings() {
                   <td className="py-3 px-4">{b.userName}<br /><span className="text-xs text-gray-500">{b.userEmail}</span></td>
                   <td className="py-3 px-4">{b.ticketId?.title || "Deleted"}</td>
                   <td className="py-3 px-4">{b.quantity}</td>
-                  <td className="py-3 px-4 font-medium">${b.totalPrice.toFixed(2)}</td>
+                  <td className="py-3 px-4 font-medium">${(b.totalPrice ?? 0).toFixed(2)}</td>
                   <td className="py-3 px-4">
                     <span className={`px-2 py-0.5 text-xs rounded-full capitalize ${
                       b.status === "paid" ? "bg-green-100 dark:bg-green-900 text-green-700" :

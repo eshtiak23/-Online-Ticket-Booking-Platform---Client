@@ -68,7 +68,7 @@ export default function MyBookedTickets() {
 
                   <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-gray-500">
                     <span>Qty: {booking.quantity}</span>
-                    <span className="font-semibold text-purple-600">${booking.totalPrice.toFixed(2)}</span>
+                    <span className="font-semibold text-purple-600">${(booking.totalPrice ?? 0).toFixed(2)}</span>
                     {t && <span>{t.departureDate} {t.departureTime}</span>}
                   </div>
 

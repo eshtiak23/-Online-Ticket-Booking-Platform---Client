@@ -35,9 +35,9 @@ export default function TransactionHistory() {
               <tbody>
                 {payments.map(p => (
                   <tr key={p._id} className="border-t border-gray-100 dark:border-gray-700">
-                    <td className="py-3 px-4 font-mono text-xs text-gray-400">{p.transactionId.slice(0, 18)}...</td>
-                    <td className="py-3 px-4">{p.ticketTitle}</td>
-                    <td className="py-3 px-4 font-medium">${p.amount.toFixed(2)}</td>
+                    <td className="py-3 px-4 font-mono text-xs text-gray-400">{p.transactionId?.slice(0, 18) || "N/A"}...</td>
+                    <td className="py-3 px-4">{p.ticketTitle || "N/A"}</td>
+                    <td className="py-3 px-4 font-medium">${(p.amount ?? 0).toFixed(2)}</td>
                     <td className="py-3 px-4 text-gray-500">{new Date(p.paymentDate).toLocaleDateString()}</td>
                   </tr>
                 ))}

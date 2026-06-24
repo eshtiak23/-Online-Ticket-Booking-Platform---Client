@@ -1,7 +1,10 @@
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function UserProfile() {
-  const { user } = useAuth();
+  const { user, isPending } = useAuth();
+
+  if (isPending) return <div className="flex justify-center py-16"><div className="w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full animate-spin"></div></div>;
+  if (!user) return null;
 
   return (
     <div className="max-w-3xl">

@@ -199,7 +199,7 @@ function UserDropdown({ user, onLogout, onNavigate }) {
           </Link>
 
           <Link
-            to={dashboardLink}
+            to={`${dashboardLink}/profile`}
             onClick={() => setOpen(false)}
             className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 dark:text-gray-300 hover:bg-blossom-50 dark:hover:bg-ocean-700 hover:text-blossom-600 dark:hover:text-blossom-400 transition-colors"
           >

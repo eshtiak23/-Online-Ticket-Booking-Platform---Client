@@ -89,8 +89,8 @@ export default function MyAddedTickets() {
                 <input type="text" value={updateForm.to} onChange={(e) => setUpdateForm({ ...updateForm, to: e.target.value })} className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700" placeholder="To" />
               </div>
               <div className="grid grid-cols-2 gap-2">
-                <input type="number" value={updateForm.price} onChange={(e) => setUpdateForm({ ...updateForm, price: e.target.value })} className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700" placeholder="Price" />
-                <input type="number" value={updateForm.quantity} onChange={(e) => setUpdateForm({ ...updateForm, quantity: e.target.value })} className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700" placeholder="Quantity" />
+                <input type="number" value={updateForm.price} onChange={(e) => setUpdateForm({ ...updateForm, price: Number(e.target.value) })} className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700" placeholder="Price" />
+                <input type="number" value={updateForm.quantity} onChange={(e) => setUpdateForm({ ...updateForm, quantity: Number(e.target.value) })} className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700" placeholder="Quantity" />
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <input type="date" value={updateForm.departureDate} onChange={(e) => setUpdateForm({ ...updateForm, departureDate: e.target.value })} className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700" />
