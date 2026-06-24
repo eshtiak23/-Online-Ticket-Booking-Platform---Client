@@ -10,7 +10,13 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     if (session?.user) {
-      setUser(session.user);
+      api.get("/users/me")
+        .then((res) => {
+          setUser((prev) => ({ ...prev, ...res.data.user }));
+        })
+        .catch(() => {
+          setUser(session.user);
+        });
     } else {
       setUser(null);
     }
