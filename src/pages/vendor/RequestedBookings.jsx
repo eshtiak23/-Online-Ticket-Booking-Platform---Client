@@ -48,7 +48,7 @@ export default function RequestedBookings() {
         <p className="text-gray-500">No booking requests</p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full text-sm min-w-[600px]">
             <thead>
               <tr className="border-b border-gray-300 dark:border-gray-600">
                 <th className="text-left py-3 px-4">User</th>

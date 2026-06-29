@@ -62,18 +62,18 @@ export default function Home() {
         autoplay={{ delay: 5000 }}
         pagination={{ clickable: true }}
         navigation
-        className="h-[500px]"
+        className="h-[350px] sm:h-[400px] lg:h-[500px]"
       >
         {slides.map((slide, idx) => (
           <SwiperSlide key={idx}>
             <section className={`relative h-full flex items-center justify-center overflow-hidden bg-gradient-to-br ${slide.bg}`}>
               <div className="absolute inset-0 bg-cover bg-center opacity-20" style={{ backgroundImage: `url('${slide.img}')` }}></div>
               <div className="relative text-center px-4">
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">{slide.title}</h1>
-                <p className="text-lg text-purple-200 mb-8 max-w-2xl mx-auto">{slide.subtitle}</p>
-                <div className="flex gap-4 justify-center">
-                  <Link to="/all-tickets" className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-full font-medium hover:opacity-90 transition shadow-lg">Browse Tickets</Link>
-                  <Link to="/register" className="px-8 py-3 bg-white/10 backdrop-blur-sm text-white rounded-full font-medium border border-white/20 hover:bg-white/20 transition">Get Started</Link>
+                <h1 className="text-2xl sm:text-4xl lg:text-6xl font-bold text-white mb-2 sm:mb-4">{slide.title}</h1>
+                <p className="text-sm sm:text-lg text-purple-200 mb-4 sm:mb-8 max-w-2xl mx-auto px-2">{slide.subtitle}</p>
+                <div className="flex gap-3 sm:gap-4 justify-center px-4">
+                  <Link to="/all-tickets" className="px-5 sm:px-8 py-2.5 sm:py-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-full font-medium hover:opacity-90 transition shadow-lg text-sm sm:text-base">Browse Tickets</Link>
+                  <Link to="/register" className="px-5 sm:px-8 py-2.5 sm:py-3 bg-white/10 backdrop-blur-sm text-white rounded-full font-medium border border-white/20 hover:bg-white/20 transition text-sm sm:text-base">Get Started</Link>
                 </div>
               </div>
             </section>

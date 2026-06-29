@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 const ThemeContext = createContext(null);
 
-const STORAGE_KEY = "ticketbari-theme";
+const STORAGE_KEY = "cholojai-theme";
 
 function getInitialTheme() {
   const saved = localStorage.getItem(STORAGE_KEY);

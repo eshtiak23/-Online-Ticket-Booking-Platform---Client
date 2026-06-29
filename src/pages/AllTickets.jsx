@@ -45,29 +45,31 @@ export default function AllTickets() {
     <div className="max-w-7xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">All Tickets</h1>
 
-      <div className="flex flex-col sm:flex-row gap-4 mb-6">
-        <form onSubmit={handleSearch} className="flex-1 flex gap-2">
+      <div className="flex flex-col gap-3 mb-6">
+        <form onSubmit={handleSearch} className="flex gap-2">
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by route (e.g., Dhaka-Chittagong)"
-            className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:ring-2 focus:ring-purple-500 outline-none"
+            className="flex-1 min-w-0 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:ring-2 focus:ring-purple-500 outline-none text-sm"
           />
-          <button type="submit" className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">Search</button>
+          <button type="submit" className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-sm shrink-0">Search</button>
         </form>
-        <select value={transport} onChange={(e) => { setTransport(e.target.value); setPage(1); }} className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:ring-2 focus:ring-purple-500 outline-none">
-          <option value="">All Types</option>
-          <option value="Bus">Bus</option>
-          <option value="Train">Train</option>
-          <option value="Launch">Launch</option>
-          <option value="Plane">Plane</option>
-        </select>
-        <select value={sort} onChange={(e) => { setSort(e.target.value); setPage(1); }} className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:ring-2 focus:ring-purple-500 outline-none">
-          <option value="">Default</option>
-          <option value="low">Price: Low to High</option>
-          <option value="high">Price: High to Low</option>
-        </select>
+        <div className="flex gap-3">
+          <select value={transport} onChange={(e) => { setTransport(e.target.value); setPage(1); }} className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:ring-2 focus:ring-purple-500 outline-none text-sm">
+            <option value="">All Types</option>
+            <option value="Bus">Bus</option>
+            <option value="Train">Train</option>
+            <option value="Launch">Launch</option>
+            <option value="Plane">Plane</option>
+          </select>
+          <select value={sort} onChange={(e) => { setSort(e.target.value); setPage(1); }} className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:ring-2 focus:ring-purple-500 outline-none text-sm">
+            <option value="">Default</option>
+            <option value="low">Price: Low to High</option>
+            <option value="high">Price: High to Low</option>
+          </select>
+        </div>
       </div>
 
       {loading ? (

@@ -79,14 +79,14 @@ function BrandLogo() {
     <Link
       to="/"
       className="flex items-center gap-2.5 group"
-      aria-label="TicketBari Home"
+      aria-label="CholoJai Home"
     >
       <span className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-blossom-500 to-primary-600 text-white text-lg font-bold shadow-lg shadow-blossom-500/30 group-hover:scale-110 transition-transform duration-300">
-        T
+        C
         <span className="absolute inset-0 rounded-xl bg-gradient-to-br from-blossom-400/40 to-primary-500/40 animate-glow-pulse" />
       </span>
       <span className="text-xl font-extrabold bg-gradient-to-r from-blossom-500 via-primary-500 to-blossom-400 bg-[length:200%_200%] animate-shimmer bg-clip-text text-transparent tracking-tight">
-        TicketBari
+        CholoJai
       </span>
     </Link>
   );
@@ -225,7 +225,7 @@ function UserDropdown({ user, onLogout, onNavigate }) {
   );
 }
 
-function MobileNav({ open, onClose, location, user }) {
+function MobileNav({ open, onClose, location, user, onLogout }) {
   return (
     <div
       className={`md:hidden fixed inset-x-0 top-16 bottom-0 z-40 transition-all duration-500 ease-in-out ${
@@ -241,13 +241,27 @@ function MobileNav({ open, onClose, location, user }) {
         onClick={onClose}
       />
       <nav
-        className={`relative mx-4 mt-2 bg-white/95 dark:bg-ocean-800/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-200 dark:border-ocean-700 p-5 transition-all duration-500 ease-out ${
+        className={`relative mx-4 mt-2 bg-white/95 dark:bg-ocean-800/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-200 dark:border-ocean-700 p-5 transition-all duration-500 ease-out max-h-[80vh] overflow-y-auto ${
           open
             ? "translate-y-0 opacity-100"
             : "-translate-y-6 opacity-0"
         }`}
       >
-        <div className="flex flex-col gap-2">
+        {user && (
+          <div className="flex items-center gap-3 px-4 py-3 mb-3 border-b border-gray-200 dark:border-ocean-700">
+            <img
+              src={user.image || `https://ui-avatars.com/api/?name=${user.name}&background=ec4899&color=fff&bold=true`}
+              alt=""
+              className="w-10 h-10 rounded-full object-cover"
+            />
+            <div className="min-w-0">
+              <p className="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">{user.name}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user.email}</p>
+            </div>
+          </div>
+        )}
+
+        <div className="flex flex-col gap-1">
           {NAV_ITEMS.filter(item => !item.requiresAuth || user).map((item, i) => {
             const isActive =
               item.path === "/"
@@ -273,6 +287,35 @@ function MobileNav({ open, onClose, location, user }) {
               </Link>
             );
           })}
+        </div>
+
+        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-ocean-700">
+          {user ? (
+            <button
+              onClick={() => { onClose(); onLogout(); }}
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all duration-300"
+            >
+              <LogOut className="w-4 h-4" />
+              Sign Out
+            </button>
+          ) : (
+            <div className="flex flex-col gap-2">
+              <Link
+                to="/login"
+                onClick={onClose}
+                className="w-full text-center px-4 py-3 rounded-xl text-sm font-medium text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-ocean-700 hover:bg-gray-100 dark:hover:bg-ocean-700 transition-all duration-300"
+              >
+                Login
+              </Link>
+              <Link
+                to="/register"
+                onClick={onClose}
+                className="w-full text-center px-4 py-3 rounded-xl text-sm font-medium bg-gradient-to-r from-blossom-500 to-primary-500 text-white shadow-md shadow-blossom-500/25 hover:shadow-lg hover:shadow-blossom-500/40 transition-all duration-300"
+              >
+                Register
+              </Link>
+            </div>
+          )}
         </div>
       </nav>
     </div>
@@ -359,6 +402,7 @@ export default function Navbar() {
         onClose={closeMobile}
         location={location}
         user={user}
+        onLogout={handleLogout}
       />
     </>
   );
