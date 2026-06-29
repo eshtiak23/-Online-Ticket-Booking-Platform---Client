@@ -4,7 +4,7 @@
 Frontend for the Online Ticket Booking Platform. Built with React, Vite, Tailwind CSS, and BetterAuth.
 
 ## Live URL
-https://your-client.vercel.app
+https://online-ticket-booking-platform-clie-sigma.vercel.app/
 
 ## Key Features
 - BetterAuth authentication (email/password + Google OAuth)
