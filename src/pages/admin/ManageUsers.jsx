@@ -14,7 +14,8 @@ export default function ManageUsers() {
       .finally(() => setLoading(false));
   }, []);
 
-  const handleRole = async (id, role) => {
+  const handleRole = async (id, role, userName) => {
+    if (!confirm(`Make ${userName} a ${role}?`)) return;
     try {
       const res = await api.put(`/api/users/role/${id}`, { role });
       setUsers(prev => prev.map(u => u._id === id ? { ...u, role: res.data.role } : u));
@@ -23,7 +24,8 @@ export default function ManageUsers() {
     }
   };
 
-  const handleFraud = async (id) => {
+  const handleFraud = async (id, userName, isFraud) => {
+    if (!confirm(isFraud ? `Clear fraud flag for ${userName}?` : `Mark ${userName} as fraud? This will reject all their tickets.`)) return;
     try {
       const res = await api.put(`/api/users/fraud/${id}`);
       setUsers(prev => prev.map(u => u._id === id ? { ...u, isFraud: res.data.isFraud } : u));
@@ -79,18 +81,18 @@ export default function ManageUsers() {
 
               <div className="flex gap-1">
                 {u.role !== "admin" && (
-                  <button onClick={() => handleRole(u._id, "admin")} className="px-2 py-1 text-xs bg-purple-600 text-white rounded hover:bg-purple-700">
+                  <button onClick={() => handleRole(u._id, "admin", u.name)} className="px-2 py-1 text-xs bg-purple-600 text-white rounded hover:bg-purple-700">
                     Admin
                   </button>
                 )}
                 {u.role !== "vendor" && (
-                  <button onClick={() => handleRole(u._id, "vendor")} className="px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700">
+                  <button onClick={() => handleRole(u._id, "vendor", u.name)} className="px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700">
                     Vendor
                   </button>
                 )}
                 {u.role === "vendor" && (
                   <button
-                    onClick={() => handleFraud(u._id)}
+                    onClick={() => handleFraud(u._id, u.name, u.isFraud)}
                     className={`px-2 py-1 text-xs text-white rounded ${u.isFraud ? "bg-green-600 hover:bg-green-700" : "bg-red-600 hover:bg-red-700"}`}
                   >
                     {u.isFraud ? "Clear" : "Fraud"}

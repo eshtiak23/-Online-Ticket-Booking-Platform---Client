@@ -28,6 +28,13 @@ function ProtectedRoute({ children }) {
   return children;
 }
 
+function GuestRoute({ children }) {
+  const { user, isPending } = useAuth();
+  if (isPending) return <div className="flex justify-center py-20"><div className="w-10 h-10 border-4 border-purple-600 border-t-transparent rounded-full animate-spin"></div></div>;
+  if (user) return <Navigate to="/dashboard" />;
+  return children;
+}
+
 function RoleRoute({ children, role }) {
   const { user } = useAuth();
   if (user?.role !== role) return <Navigate to="/dashboard" />;
@@ -37,9 +44,6 @@ function RoleRoute({ children, role }) {
 function DashboardRedirect() {
   const { user } = useAuth();
   if (!user) return <Navigate to="/login" />;
-  const role = user?.role || "user";
-  if (role === "admin") return <Navigate to="/dashboard/profile" />;
-  if (role === "vendor") return <Navigate to="/dashboard/profile" />;
   return <Navigate to="/dashboard/profile" />;
 }
 
@@ -48,8 +52,8 @@ export default function App() {
     <Routes>
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<GuestRoute><Login /></GuestRoute>} />
+        <Route path="/register" element={<GuestRoute><Register /></GuestRoute>} />
         <Route path="/all-tickets" element={<AllTickets />} />
         <Route path="/ticket/:id" element={
           <ProtectedRoute><TicketDetails /></ProtectedRoute>
@@ -69,6 +73,7 @@ export default function App() {
         <Route path="manage-tickets" element={<RoleRoute role="admin"><ManageTickets /></RoleRoute>} />
         <Route path="manage-users" element={<RoleRoute role="admin"><ManageUsers /></RoleRoute>} />
         <Route path="advertise" element={<RoleRoute role="admin"><AdvertiseTickets /></RoleRoute>} />
+        <Route path="*" element={<ErrorPage />} />
       </Route>
     </Routes>
   );

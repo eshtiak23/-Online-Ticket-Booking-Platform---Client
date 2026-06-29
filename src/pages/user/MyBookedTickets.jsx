@@ -41,23 +41,20 @@ export default function MyBookedTickets() {
       {bookings.length === 0 ? (
         <p className="text-gray-400 py-10 text-center">You haven't booked any tickets yet</p>
       ) : (
-        <div className="grid gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {bookings.map(booking => {
             const t = booking.ticketId;
             const passed = t && new Date(`${t.departureDate}T${t.departureTime}`) < new Date();
 
             return (
-              <div key={booking._id} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 sm:flex sm:gap-4">
+              <div key={booking._id} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
                 {t?.image && (
-                  <img src={t.image} alt="" className="w-full sm:w-32 h-28 object-cover rounded-lg mb-3 sm:mb-0" />
+                  <img src={t.image} alt="" className="w-full h-36 object-cover" />
                 )}
-                <div className="flex-1">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h3 className="font-semibold">{t?.title || "Ticket unavailable"}</h3>
-                      {t && <p className="text-sm text-gray-500">{t.from} → {t.to}</p>}
-                    </div>
-                    <span className={`px-2 py-0.5 text-xs rounded-full capitalize ${
+                <div className="p-4">
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="font-semibold text-sm">{t?.title || "Ticket unavailable"}</h3>
+                    <span className={`px-2 py-0.5 text-xs rounded-full capitalize shrink-0 ml-2 ${
                       booking.status === "paid" ? "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300" :
                       booking.status === "accepted" ? "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300" :
                       booking.status === "cancelled" ? "bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400" :
@@ -66,23 +63,28 @@ export default function MyBookedTickets() {
                     }`}>{booking.status}</span>
                   </div>
 
-                  <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-gray-500">
+                  {t && <p className="text-sm text-gray-500 mb-2">{t.from} → {t.to}</p>}
+
+                  <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500 mb-2">
                     <span>Qty: {booking.quantity}</span>
                     <span className="font-semibold text-purple-600">${(booking.totalPrice ?? 0).toFixed(2)}</span>
-                    {t && <span>{t.departureDate} {t.departureTime}</span>}
                   </div>
 
+                  {t && (
+                    <p className="text-xs text-gray-400 mb-2">{t.departureDate} {t.departureTime}</p>
+                  )}
+
                   {t && booking.status !== "cancelled" && booking.status !== "rejected" && (
-                    <div className="mt-2">
+                    <div className="mb-2">
                       <CountdownTimer departureDate={t.departureDate} departureTime={t.departureTime} />
                     </div>
                   )}
 
-                  <div className="mt-3 flex gap-2">
+                  <div className="flex gap-2 mt-2">
                     {booking.status === "pending" && (
                       <button
                         onClick={() => handleCancel(booking._id)}
-                        className="px-4 py-1.5 text-sm border border-red-300 text-red-500 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20"
+                        className="flex-1 px-4 py-1.5 text-sm border border-red-300 text-red-500 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20"
                       >
                         Cancel
                       </button>
@@ -90,13 +92,13 @@ export default function MyBookedTickets() {
                     {booking.status === "accepted" && !passed && (
                       <button
                         onClick={() => handlePay(booking._id)}
-                        className="px-4 py-1.5 text-sm bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+                        className="flex-1 px-4 py-1.5 text-sm bg-purple-600 text-white rounded-lg hover:bg-purple-700"
                       >
                         Pay Now
                       </button>
                     )}
                     {booking.status === "paid" && (
-                      <span className="px-4 py-1.5 text-sm text-green-600">✓ Paid</span>
+                      <span className="px-4 py-1.5 text-sm text-green-600">Paid</span>
                     )}
                   </div>
                 </div>

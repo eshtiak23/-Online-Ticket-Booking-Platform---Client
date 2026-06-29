@@ -7,11 +7,16 @@ export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
     try {
       await register(name, email, password);
       window.location.href = "/";
@@ -46,6 +51,10 @@ export default function Register() {
                 )}
               </button>
             </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Confirm Password</label>
+            <input type={showPassword ? "text" : "password"} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition" placeholder="••••••••" />
           </div>
           {error && <p className="text-red-500 text-sm">{error}</p>}
           <button type="submit" className="w-full py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-lg font-medium hover:opacity-90 transition">Register</button>

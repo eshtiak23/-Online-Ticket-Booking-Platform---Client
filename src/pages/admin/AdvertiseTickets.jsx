@@ -25,12 +25,13 @@ export default function AdvertiseTickets() {
   if (loading) return <Spinner />;
 
   const approved = tickets.filter(t => t.verificationStatus === "approved");
+  const advertisedCount = approved.filter(t => t.isAdvertised).length;
 
   return (
     <div>
       <div className="mb-6">
         <h2 className="text-2xl font-bold">Advertise</h2>
-        <p className="text-sm text-gray-500 mt-1">Feature tickets on the homepage (max 6)</p>
+        <p className="text-sm text-gray-500 mt-1">Feature tickets on the homepage <span className={`font-medium ${advertisedCount >= 6 ? "text-red-500" : "text-purple-600"}`}>({advertisedCount}/6)</span></p>
       </div>
 
       {approved.length === 0 ? (
@@ -47,10 +48,13 @@ export default function AdvertiseTickets() {
                   <span className="font-semibold">${t.price}</span>
                   <button
                     onClick={() => handleToggle(t._id)}
-                    className={`px-3 py-1 text-sm rounded-lg ${
+                    disabled={!t.isAdvertised && advertisedCount >= 6}
+                    className={`px-3 py-1 text-sm rounded-lg transition ${
                       t.isAdvertised
                         ? "bg-purple-600 text-white hover:bg-purple-700"
-                        : "bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400"
+                        : advertisedCount >= 6
+                          ? "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed"
+                          : "bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-600"
                     }`}
                   >
                     {t.isAdvertised ? "Remove" : "Advertise"}

@@ -86,7 +86,7 @@ export default function Home() {
           <h2 className="text-3xl font-bold text-center mb-2 bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">Featured Tickets</h2>
           <p className="text-center text-gray-500 mb-8">Hand-picked tickets by our team</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {advertised.map((ticket) => (
+            {advertised.slice(0, 6).map((ticket) => (
               <TicketCard key={ticket._id} ticket={ticket} />
             ))}
           </div>
